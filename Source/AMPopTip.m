@@ -154,8 +154,10 @@
         if (!self.ignoreContainerFrame) {
             if (y < 0) { y = self.edgeMargin; }
             if (y + frame.size.height > self.containerView.bounds.size.height) { y = self.containerView.bounds.size.height - frame.size.height - self.edgeMargin; }
-            frame.origin = (CGPoint){ x, y };
         }
+        
+        frame.origin = (CGPoint){ x, y };
+        
     } else {
         frame.size = (CGSize){ self.textBounds.size.width + self.padding * 2.0 + self.edgeInsets.left + self.edgeInsets.right, self.textBounds.size.height + self.padding * 2.0 + self.edgeInsets.top + self.edgeInsets.bottom };
         frame.origin = (CGPoint){ CGRectGetMidX(self.fromFrame) - frame.size.width / 2, CGRectGetMidY(self.fromFrame) - frame.size.height / 2 + offset };
