@@ -99,7 +99,8 @@
         self.maxWidth = MIN(self.maxWidth, self.fromFrame.origin.x - self.padding * 2 - self.edgeInsets.left - self.edgeInsets.right - self.arrowSize.width);
     }
     if (self.direction == AMPopTipDirectionRight) {
-        self.maxWidth = MIN(self.maxWidth, self.containerView.bounds.size.width - self.fromFrame.origin.x - self.fromFrame.size.width - self.padding * 2 - self.edgeInsets.left - self.edgeInsets.right - self.arrowSize.width);
+        CGFloat fitWidth = self.ignoreContainerFrame ? self.fromFrame.size.width : self.containerView.bounds.size.width;
+        self.maxWidth = MIN(self.maxWidth, fitWidth - self.fromFrame.origin.x - self.fromFrame.size.width - self.padding * 2 - self.edgeInsets.left - self.edgeInsets.right - self.arrowSize.width);
     }
 
     if (self.text != nil) {
@@ -122,8 +123,11 @@
         frame.size = (CGSize){self.textBounds.size.width + self.padding * 2.0 + self.edgeInsets.left + self.edgeInsets.right, self.textBounds.size.height + self.padding * 2.0 + self.edgeInsets.top + self.edgeInsets.bottom + self.arrowSize.height};
 
         CGFloat x = self.fromFrame.origin.x + self.fromFrame.size.width / 2 - frame.size.width / 2;
-        if (x < 0) { x = self.edgeMargin; }
-        if (x + frame.size.width > self.containerView.bounds.size.width) { x = self.containerView.bounds.size.width - frame.size.width - self.edgeMargin; }
+
+        if (!self.ignoreContainerFrame) {
+            if (x < 0) { x = self.edgeMargin; }
+            if (x + frame.size.width > self.containerView.bounds.size.width) { x = self.containerView.bounds.size.width - frame.size.width - self.edgeMargin; }
+        }
         if (self.direction == AMPopTipDirectionDown) {
             frame.origin = (CGPoint){ x, self.fromFrame.origin.y + self.fromFrame.size.height };
         } else {
@@ -147,9 +151,11 @@
 
         CGFloat y = self.fromFrame.origin.y + self.fromFrame.size.height / 2 - frame.size.height / 2;
 
-        if (y < 0) { y = self.edgeMargin; }
-        if (y + frame.size.height > self.containerView.bounds.size.height) { y = self.containerView.bounds.size.height - frame.size.height - self.edgeMargin; }
-        frame.origin = (CGPoint){ x, y };
+        if (!self.ignoreContainerFrame) {
+            if (y < 0) { y = self.edgeMargin; }
+            if (y + frame.size.height > self.containerView.bounds.size.height) { y = self.containerView.bounds.size.height - frame.size.height - self.edgeMargin; }
+            frame.origin = (CGPoint){ x, y };
+        }
     } else {
         frame.size = (CGSize){ self.textBounds.size.width + self.padding * 2.0 + self.edgeInsets.left + self.edgeInsets.right, self.textBounds.size.height + self.padding * 2.0 + self.edgeInsets.top + self.edgeInsets.bottom };
         frame.origin = (CGPoint){ CGRectGetMidX(self.fromFrame) - frame.size.width / 2, CGRectGetMidY(self.fromFrame) - frame.size.height / 2 + offset };

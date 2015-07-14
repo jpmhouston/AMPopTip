@@ -310,11 +310,25 @@ typedef NS_ENUM(NSInteger, AMPopTipActionAnimation) {
  */
 @property (nonatomic, assign) NSTimeInterval actionDelayOut UI_APPEARANCE_SELECTOR;
 
-/** Margin from the left efge
+/** Margin from the left edge
  *
  * CGfloat value that determines the leftmost margin from the screen
  */
 @property (nonatomic, assign) CGFloat edgeMargin UI_APPEARANCE_SELECTOR;
+
+/** Ignore container view's frame
+ *
+ * A boolean value that determines whether the tip should ignore the container view's frame
+ * but instead always center the arrow within fromFrame even if it goes outside of
+ * the container view's frame.
+ */
+@property (nonatomic, assign) BOOL ignoreContainerFrame;
+
+/** Maximum tip width when ignoring frame
+ *
+ * A value that determines the maximum width of the tip when ignoreFrame is set to YES.
+ */
+@property (nonatomic, assign) CGFloat maximumWidthWhenFrameIgnored;
 
 /** The frame the poptip is pointing to
  *
